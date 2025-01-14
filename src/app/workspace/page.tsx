@@ -35,19 +35,6 @@ export default function Workspace() {
      setMessageShare(storedMessageShare);
    }
  }, []);
-    
- const [workspaceName, setWorkspaceName] = useState('')
- const [messageShare, setMessageShare] = useState('')
-
- useEffect(() => {
-  if (typeof window !== 'undefined') {
-    const storedWorkspaceName = localStorage.getItem("WorkspaceName") || "Meu Espaço de Trabalho";
-    const storedMessageShare = localStorage.getItem("sharedMessage") || "";
-    setWorkspaceName(storedWorkspaceName);
-    setMessageShare(storedMessageShare);
-  }
-}, []);
-
  
   const [forms, setForms] = useState<Form[]>([]);
   const [filteredForms, setFilteredForms] = useState<Form[]>([]);
@@ -187,7 +174,7 @@ export default function Workspace() {
                       </tr>
                     ) : (
                       filteredForms.map((form) => (
-                        <TableRow key={form.id} onClick={() => window.location.href = /form/builder?id=${form.id}}>
+                        <TableRow key={form.id} onClick={() => window.location.href = `/form/builder?id=${form.id}`}>
                           <TableCell>{form.title}</TableCell>
                           <TableCell className="hidden sm:table-cell">
                             {new Date(form.createdAt).toLocaleDateString('pt-BR')}
