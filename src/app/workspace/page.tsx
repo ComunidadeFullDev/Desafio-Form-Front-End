@@ -24,6 +24,18 @@ import PublishedForms from '@/components/Dashboard/publishedForms';
 import { ShareModal } from '@/components/CopyAndShare';
 
 export default function Workspace() {
+  const [workspaceName, setWorkspaceName] = useState('')
+  const [messageShare, setMessageShare] = useState('')
+ 
+  useEffect(() => {
+   if (typeof window !== 'undefined') {
+     const storedWorkspaceName = localStorage.getItem("WorkspaceName") || "Meu Espaço de Trabalho";
+     const storedMessageShare = localStorage.getItem("sharedMessage") || "";
+     setWorkspaceName(storedWorkspaceName);
+     setMessageShare(storedMessageShare);
+   }
+ }, []);
+    
  const [workspaceName, setWorkspaceName] = useState('')
  const [messageShare, setMessageShare] = useState('')
 
