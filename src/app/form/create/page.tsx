@@ -88,11 +88,11 @@ export default function CreateForm() {
             O que vamos construir hoje? <span className="inline-block" role="img" aria-label="Rosto sorridente">🙂</span>
           </h1>
           <p className="text-sm text-muted-foreground md:text-base">
-            Hey! Você pode começar criando um do zero ou usando um template
+            Hey! Você pode começar criando um do zero
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 auto-rows-fr">
+        <div className="grid gap-6 md:grid-cols-1 auto-rows-fr">
           <Card className="overflow-hidden h-full">
             <CardContent className="p-6 h-full">
               <Button
@@ -113,113 +113,18 @@ export default function CreateForm() {
               </Button>
             </CardContent>
           </Card>
-
-          <Card className="overflow-hidden h-full">
-            <CardContent className="p-6 h-full">
-              <Button
-                variant="ghost"
-                className="h-full w-full p-0 flex flex-col items-center justify-center"
-                onClick={handleModalOpen}
-              >
-                <div className="mb-4 rounded-full bg-primary/10 p-4">
-                  <Download className="h-6 w-6 text-primary" />
-                </div>
-                <h2 className="mb-2 text-base font-semibold md:text-lg">Importar perguntas com I.A</h2>
-                <p className="text-xs text-muted-foreground md:text-sm">
-                  escolha um tema e peça para a I.A<br />
-                  gerar suas questões
-                </p>
-              </Button>
-            </CardContent>
-          </Card>
         </div>
 
         <div className="mt-12 text-center text-xs md:text-sm">
           <span className="text-muted-foreground">Precisa de ajuda para começar? </span>
           <Link
-            href="/support"
+            href="mailto:fulldevcommunity@gmail.com?subject=Solicitação%20de%20Suporte"
             className="font-medium text-primary hover:underline"
           >
             Solicite um suporte agora
           </Link>
         </div>
       </div>
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="w-full max-w-lg p-4 sm:p-6">
-          {!isLoading ? (
-            <>
-              <DialogHeader>
-                <DialogTitle>Importar perguntas</DialogTitle>
-                <DialogDescription>
-                  Insira o tópico e o número de questões que você deseja gerar.
-                </DialogDescription>
-              </DialogHeader>
-              <form onSubmit={handleSubmit}>
-                <div className="grid gap-4 py-4">
-                  <div className="grid gap-2">
-                    <Label htmlFor="topic">Tópico</Label>
-                    <Input
-                      id="topic"
-                      name="topic"
-                      placeholder="Ex: principais perguntas em uma entrevista de emprego"
-                      required
-                      className="w-full"
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="questionCount">Número de questões</Label>
-                    <Input
-                      id="questionCount"
-                      name="questionCount"
-                      type="number"
-                      placeholder="Ex: 10"
-                      required
-                      min="1"
-                      max="50"
-                      className="w-full"
-                    />
-                  </div>
-                </div>
-                <DialogFooter>
-                  <Button type="submit" className="w-full sm:w-auto">
-                    Gerar questões
-                  </Button>
-                </DialogFooter>
-              </form>
-            </>
-          ) : (
-            <div className="flex flex-col items-center justify-center space-y-6 p-4 sm:p-6">
-              <div className="relative">
-                <div className="absolute inset-0 bg-blue-500/20 rounded-full animate-ping"></div>
-                <Zap
-                  className="h-16 w-16 sm:h-24 sm:w-24 text-yellow-500 animate-pulse z-10 relative"
-                  strokeWidth={1.5}
-                  fill="currentColor"
-                />
-              </div>
-              <div className="flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full">
-                <Zap className="h-5 w-5 text-yellow-500 animate-pulse" />
-                <span className="text-sm font-medium animate-pulse text-center">
-                  Gerando questões na velocidade da luz! 🌟
-                </span>
-                <Loader2 className="h-4 w-4 animate-spin text-primary" />
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                <div
-                  className="bg-blue-600 h-2.5 rounded-full animate-pulse"
-                  style={{ width: "75%" }}
-                ></div>
-              </div>
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <Loader2 className="h-4 w-4 animate-spin" />
-                <span className="text-sm text-center">
-                  Preparando conteúdo inteligente em alta velocidade...
-                </span>
-              </div>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
     </div>
   )
 }
