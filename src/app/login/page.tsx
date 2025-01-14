@@ -22,16 +22,21 @@ export default function LoginPage() {
   const [message, setMessage] = useState<string | null>(null);
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
-
-
+  useEffect(() => {
+    // Verificar se o token existe
+    const token = Cookies.get("token");
+    if (token) {
+      router.push("/workspace");
+    }
+  }, []);
 
   const handleLoginWithEmail = async () => {
     setIsLoading(true);
     try {
       const authData: AuthDTO = { email, password };
-      Cookies.remove("token")
+      Cookies.remove("token");
       await login(authData);
-      router.push("/workspace")
+      router.push("/workspace");
     } catch (error: any) {
       if (error.response && error.response.data) {
         setMessage(error.response.data);
@@ -44,13 +49,13 @@ export default function LoginPage() {
   }
 
   useEffect(() => {
-      if (message) {
-        const timer = setTimeout(() => {
-          setMessage("")
-        }, 4000)
-        return () => clearTimeout(timer);
-      }
-    }, [message])
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage("")
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   const alternarVisibilidadeSenha = () => {
     setMostrarSenha(!mostrarSenha);
@@ -86,12 +91,12 @@ export default function LoginPage() {
             <div className="space-y-2 w-full">
               <Label htmlFor="password">Senha</Label>
               <div className="relative">
-
                 <Input
                   id="password"
                   type={mostrarSenha ? "text" : "password"}
                   placeholder="Insira sua senha"
-                  className="w-full" onChange={(e) => setPassword(e.target.value)}
+                  className="w-full"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <button
                   type="button"

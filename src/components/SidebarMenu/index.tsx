@@ -16,11 +16,14 @@ const SidebarMenu = () => {
       <div className="mb-8 flex items-center justify-around space-x-4">
         <Image src="/LogoWhite.svg" width={50} height={50} alt="Logo" />
         <Button
-          className="flex bg-gray-100 rounded-full items-center space-x-2 my-9 py-6 px-7"
-          onClick={handleLogout}
-        >
-          <LogOut color="black" className="h-10 w-10" />
-        </Button>
+            variant="outline"
+            size="icon"
+            className="rounded-full"
+            onClick={handleLogout}
+          >
+            <LogOut className="h-5 w-5" />
+            <span className="sr-only">Logout</span>
+          </Button>
       </div>
 
       <nav className="space-y-2">

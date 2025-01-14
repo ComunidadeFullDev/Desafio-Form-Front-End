@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react"
 import { motion, AnimatePresence, HTMLMotionProps } from "framer-motion"
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -17,6 +17,8 @@ import Cookies from "js-cookie";
 import ModalPassword from "./../components/ui/modal-password"
 import Image from "next/image";
 import spinnerloading from "./../../public/isloading.svg";
+import { Skeleton } from "./ui/skeleton"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
 
 
 interface Question {
@@ -282,14 +284,18 @@ export default function FormPreview() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900">
-        <Image
-          src={spinnerloading}
-          alt="Carregando"
-          className="animate-spin h-12 w-12 mb-4"
-        />
-        <p className="text-lg text-gray-300">Carregando perguntas...</p>
-      </div>
+      <div className="flex items-center justify-center min-h-screen bg-background">
+      <Card className="w-[300px]">
+        <CardContent className="flex flex-col items-center space-y-4 pt-6">
+          <Loader2 className="h-12 w-12 animate-spin text-primary" />
+          <p className="text-lg font-medium text-center">Carregando</p>
+          <div className="space-y-2 w-full">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-3/4" />
+          </div>
+        </CardContent>
+      </Card>
+    </div>
     )
   }
   
@@ -388,23 +394,45 @@ export default function FormPreview() {
   if (submitted) {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        {...({ className: "min-h-screen bg-background flex items-center justify-center p-4" } as HTMLMotionProps<'div'>)}
-      >
-        <div className="text-center space-y-4">
-          <h2 className="text-2xl font-bold">Obrigado por responder!</h2>
-          <p className="text-muted-foreground">Suas respostas foram registradas.</p>
-          <Button onClick={() => {
-            setSubmitted(false);
-            setCurrentQuestion(0);
-            setResponses({});
-          }}>
-            Responder novamente
-          </Button>
-        </div>
-      </motion.div>
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen bg-background flex items-center justify-center p-4"
+    >
+      <Card className="w-[350px]">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold text-center">Obrigado por responder!</CardTitle>
+          <CardDescription className="text-center">Suas respostas foram registradas.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.2, type: "spring", stiffness: 260, damping: 20 }}
+          >
+            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                className="w-8 h-8 text-primary"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </div>
+          </motion.div>
+        </CardContent>
+        <CardFooter className="flex justify-center">
+        
+        </CardFooter>
+      </Card>
+    </motion.div>
     );
   }
 

@@ -430,7 +430,7 @@ export default function FormBuilder() {
                     />
                   </div>
                 </div>
-                <Button variant="fulldev" type="submit" onClick={saveSettings}>
+                <Button variant="default" type="submit" onClick={saveSettings}>
                   Salvar Configurações
                 </Button>
               </DialogContent>
