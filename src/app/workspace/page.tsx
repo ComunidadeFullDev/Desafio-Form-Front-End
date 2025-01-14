@@ -24,9 +24,8 @@ import PublishedForms from '@/components/Dashboard/publishedForms';
 import { ShareModal } from '@/components/CopyAndShare';
 
 export default function Workspace() {
-  const [workspaceName, setWorkspaceName] = useState(
+  const workspaceName =
     localStorage.getItem("WorkspaceName") || "Meu Espaço de Trabalho"
-  );
   const messageShare = localStorage.getItem("sharedMessage") || ""
   const [forms, setForms] = useState<Form[]>([]);
   const [filteredForms, setFilteredForms] = useState<Form[]>([]);
