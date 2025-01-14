@@ -24,9 +24,19 @@ import PublishedForms from '@/components/Dashboard/publishedForms';
 import { ShareModal } from '@/components/CopyAndShare';
 
 export default function Workspace() {
-  const workspaceName =
-    localStorage.getItem("WorkspaceName") || "Meu Espaço de Trabalho"
-  const messageShare = localStorage.getItem("sharedMessage") || ""
+ const [workspaceName, setWorkspaceName] = useState('')
+ const [messageShare, setMessageShare] = useState('')
+
+ useEffect(() => {
+  if (typeof window !== 'undefined') {
+    const storedWorkspaceName = localStorage.getItem("WorkspaceName") || "Meu Espaço de Trabalho";
+    const storedMessageShare = localStorage.getItem("sharedMessage") || "";
+    setWorkspaceName(storedWorkspaceName);
+    setMessageShare(storedMessageShare);
+  }
+}, []);
+
+ 
   const [forms, setForms] = useState<Form[]>([]);
   const [filteredForms, setFilteredForms] = useState<Form[]>([]);
   const [editingForm, setEditingForm] = useState<Form | null>(null);
@@ -165,7 +175,7 @@ export default function Workspace() {
                       </tr>
                     ) : (
                       filteredForms.map((form) => (
-                        <TableRow key={form.id} onClick={() => window.location.href = `/form/builder?id=${form.id}`}>
+                        <TableRow key={form.id} onClick={() => window.location.href = /form/builder?id=${form.id}}>
                           <TableCell>{form.title}</TableCell>
                           <TableCell className="hidden sm:table-cell">
                             {new Date(form.createdAt).toLocaleDateString('pt-BR')}
@@ -232,6 +242,6 @@ export default function Workspace() {
           onDelete={handleDelete}
         />
       )}
-    </div>
-  );
+    </div>
+  );
 }
