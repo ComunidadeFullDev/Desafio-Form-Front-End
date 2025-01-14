@@ -242,6 +242,6 @@ export default function Workspace() {
           onDelete={handleDelete}
         />
       )}
-    </div>
-  );
+    </div>
+  );
 }
