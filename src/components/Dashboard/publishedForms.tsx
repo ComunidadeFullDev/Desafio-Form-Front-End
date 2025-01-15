@@ -1,14 +1,14 @@
 'use client';
+
 import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Eye, Link2, Share2 } from 'lucide-react';
-import { Form, FormWorkspace } from '@/types/Form';
+import { FormWorkspace } from '@/types/Form';
 import { getMyPublicsForms } from '@/services/endpoint/form';
-import { FaFacebook, FaTwitter, FaWhatsapp } from 'react-icons/fa';
 import { CopyButton, ShareModal } from '../CopyAndShare';
-
+import { PublishedFormsSkeleton } from '../SkeletonLoader/PublishedFormsSkeleton';
 
 export default function PublishedForms() {
   const sharedMessage = localStorage.getItem("sharedMessage") || ""
@@ -16,8 +16,6 @@ export default function PublishedForms() {
   const [forms, setForms] = useState<FormWorkspace[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-
 
   useEffect(() => {
     const fetchForms = async () => {
@@ -37,11 +35,10 @@ export default function PublishedForms() {
   }, []);
 
   const filteredForms = Array.isArray(forms)
-  ? forms.filter((form) =>
-      form.title.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  : [];
-
+    ? forms.filter((form) =>
+        form.title.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : [];
 
   return (
     <div className="space-y-4">
@@ -52,16 +49,15 @@ export default function PublishedForms() {
         className="max-w-sm"
       />
       <div className="rounded-md border">
-      {isLoading ? (
-      
-          <p>Carregando...</p>
+        {isLoading ? (
+          <PublishedFormsSkeleton />
+        ) : error ? (
+          <p className="p-4 text-center text-red-500">{error}</p>
         ) : filteredForms.length === 0 && searchTerm !== "" ? (
           <p className="p-4 text-center text-gray-500">Nenhum formulário publicado com o título "{searchTerm}" foi encontrado.</p>
-        ) :  forms.length === 0  || filteredForms.length === 0 ? ( 
+        ) : forms.length === 0 || filteredForms.length === 0 ? ( 
           <p className="p-4 text-center text-gray-500">Você ainda não publicou nenhum formulário.</p>
-        ): error ? (
-          <p className="text-red-500">{error}</p>
-        )  :(
+        ) : (
           <Table>
             <TableHeader>
               <TableRow>
@@ -73,7 +69,7 @@ export default function PublishedForms() {
             </TableHeader>
             <TableBody>
               {filteredForms.map((form) => (
-                <TableRow key={form.id} onClick={() => window.location.href = `/form/builder?id=${form.id}`}>
+                <TableRow key={form.id} className="cursor-pointer  transition-colors duration-200">
                   <TableCell className="font-medium">{form.title}</TableCell>
                   <TableCell>{new Date(form.createdAt).toLocaleDateString('pt-BR')}</TableCell>
                   <TableCell>
@@ -82,12 +78,11 @@ export default function PublishedForms() {
                       {form.views}
                     </div>
                   </TableCell>
-                  <TableCell className="text-right" onClick={(e) => e.stopPropagation()}>
-
+                  <TableCell className="text-right">
+                    <div className="flex justify-end space-x-2">
                       <CopyButton textToCopy={form.link} />
-
                       <ShareModal link={form.link} message={sharedMessage} />
-                      
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}

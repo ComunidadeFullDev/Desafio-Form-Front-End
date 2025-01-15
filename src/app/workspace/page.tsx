@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {  FileEdit, Menu, Plus, Share2, Trash2 } from 'lucide-react';
+import { FileEdit, Menu, Plus, Share2, Trash2 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Link from "next/link";
@@ -22,6 +22,7 @@ import SidebarMenu from '@/components/SidebarMenu';
 import Settings from '@/components/Dashboard/settings';
 import PublishedForms from '@/components/Dashboard/publishedForms';
 import { ShareModal } from '@/components/CopyAndShare';
+import { FormTableSkeleton } from "@/components/SkeletonLoader/FormTableSkeleton";
 
 export default function Workspace() {
   const [workspaceName, setWorkspaceName] = useState('')
@@ -145,11 +146,7 @@ export default function Workspace() {
                   </TableHeader>
                   <TableBody>
                     {isLoading ? (
-                      <tr>
-                        <td colSpan={4}>
-                          <p className="p-4 text-start text-gray-500">Carregando...</p>
-                        </td>
-                      </tr>
+                      <FormTableSkeleton />
                     ) : error ? (
                       <tr>
                         <td colSpan={4}>
@@ -244,3 +241,4 @@ export default function Workspace() {
     </div>
   );
 }
+
