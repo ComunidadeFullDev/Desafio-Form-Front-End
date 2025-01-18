@@ -10,6 +10,14 @@ module.exports = {
     NEXT_PUBLIC_API_GENERATE_QUESTIONS_URL: process.env.NEXT_PUBLIC_API_GENERATE_QUESTIONS_URL,
     NEXT_API_KEY_GENERATE_QUESTIONS: process.env.NEXT_API_KEY_GENERATE_QUESTIONS,
   },
+  async rewrites() {
+    return [
+      {
+        source: '/form/preview/:FormType/:FormId',
+        destination: '/form/preview/:FormType/:FormId',
+      },
+    ];
+  },
 };
 
 export default nextConfig;
