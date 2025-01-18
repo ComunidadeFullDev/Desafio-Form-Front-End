@@ -19,6 +19,7 @@ import Image from "next/image";
 import spinnerloading from "./../../public/isloading.svg";
 import { Skeleton } from "./ui/skeleton"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
+import { useSearchParams } from 'next/navigation';
 
 
 interface Question {
@@ -38,9 +39,13 @@ interface AnswerDTO {
   response: string;
 }
 
-export default function FormPreview() {
+type FormPreviewProps = {
+  formType: string; 
+  formId: string
+};
+
+export default function FormPreview({ formType, formId }: FormPreviewProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [params, setParams] = useState<URLSearchParams | null>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [responses, setResponses] = useState<FormResponse>({});
@@ -53,33 +58,22 @@ export default function FormPreview() {
   const [password, setPassword] = useState("");
   const [loginType, setLoginType] = useState("");
   const question = questions[currentQuestion];
-  const [idPublic, setIdPublic] = useState("")
   const totalQuestions = questions.length;
   const [messagePassword, setMessagePassword] = useState("");
-
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const urlParams = new URLSearchParams(window.location.search);
-      setParams(urlParams);
 
-      const formId = urlParams.get("form") || "";
-      const formLogin = urlParams.get("logintype");
-      setIdPublic(formId);
-
-      const valueLoginType = formLogin?.split('?')[0];
-      setLoginType(valueLoginType || "");
-
-      if (valueLoginType === "private") {
+      if (formType === "private") {
         if (!Cookies.get("token")) {
           setShowLoginModal(true);
         }
         else {
-          fetchFormData(formId, valueLoginType || "", "");
+          fetchFormData(formId, formType || "", "");
         }
       }
 
-      if (valueLoginType === "password") {
+      if (formType === "password") {
         localStorage.removeItem("passwordForm")
 
         if (!localStorage.getItem("passwordForm")) {
@@ -87,10 +81,9 @@ export default function FormPreview() {
         }
       }
 
-      if (valueLoginType === "public") {
-        fetchFormData(formId, valueLoginType || "", "");
+      if (formType === "public") {
+        fetchFormData(formId, formType || "", "");
       }
-    }
   }, []);
 
   const fetchFormData = async (id: string, formHasLoginType: string, password: string) => {
@@ -132,7 +125,7 @@ export default function FormPreview() {
 
   const handlePasswordSubmit = async () => {
     try {
-      const response = await getPublicForm(idPublic, "password", password);
+      const response = await getPublicForm(formId, "password", password);
       setQuestions(
         response.questions.map((q) => ({
           id: q.id.toString(),
@@ -157,9 +150,7 @@ export default function FormPreview() {
 
 
   const handleSubmit = async () => {
-    const params = new URLSearchParams(window.location.search)
-    const formId = params.get("form")
-    if (!formId) {
+    if (formId) {
       alert("Formulário não encontrado!")
       return;
     }
