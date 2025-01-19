@@ -16,6 +16,14 @@ module.exports = {
         source: '/form/preview/:FormType/:FormId',
         destination: '/form/preview/:FormType/:FormId',
       },
+      {
+        source: '/verify/:token',
+        destination: '/verify/:token',
+      },
+      {
+        source: '/reset-password/:resetToken',
+        destination: '/reset-password/:resetToken',
+      },
     ];
   },
 };
