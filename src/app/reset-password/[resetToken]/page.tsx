@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState, Suspense } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,11 +8,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { confirmPasswordReset } from '@/services/endpoint/authService';
 
-function ResetPasswordForm() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const token = searchParams.get('token') || '';
+type FormPreviewProps = {
+  resetToken: string; 
+};
 
+function ResetPasswordForm({ resetToken }: FormPreviewProps) {
+  const router = useRouter();
   const [passwordMismatch, setPasswordMismatch] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -26,7 +27,7 @@ function ResetPasswordForm() {
     }
 
     try {
-      const responseMessage = await confirmPasswordReset(token, password);
+      const responseMessage = await confirmPasswordReset(resetToken, password);
       setSuccessMessage(responseMessage);
       setError('');
       setTimeout(() => router.push('/login'), 3000);
@@ -95,11 +96,13 @@ function ResetPasswordForm() {
   );
 }
 
-export default function ResetPasswordPage() {
+export default async function ResetPasswordPage({params}: {params: { resetToken: string };}) {
+  const resetToken = params.resetToken
+
   return (
     <div className="min-h-screen w-full flex items-center justify-center p-4 lg:p-8">
       <Suspense fallback={<div>Carregando...</div>}>
-        <ResetPasswordForm />
+        <ResetPasswordForm resetToken={resetToken}/>
       </Suspense>
     </div>
   );
