@@ -4,24 +4,15 @@ import { useRouter } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import logo from "./../../../public/LogoWhite.svg";
+import logo from "./../../../../public/LogoWhite.svg";
 import { verifyUser } from "@/services/endpoint/authService";
 
-export default function EmailVerification() {
+export default function EmailVerification({params}: {params: { token: string };}) {
   const [verificationStatus, setVerificationStatus] = useState<string | null>(null);
   const [countdown, setCountdown] = useState(10);
-  const [token, setToken] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      setToken(params.get("token"));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!token) return;
 
     const verifyUserEmail = async (token: string) => {
       try {
@@ -33,8 +24,8 @@ export default function EmailVerification() {
       }
     };
 
-    verifyUserEmail(token);
-  }, [token]);
+    verifyUserEmail(params.token);
+  }, [params.token]);
 
   useEffect(() => {
     if (verificationStatus === "success") {
