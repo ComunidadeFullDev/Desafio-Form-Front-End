@@ -148,7 +148,7 @@ export default function FormPreview({ formType, formId }: FormPreviewProps) {
 
 
   const handleSubmit = async () => {
-    if (formId) {
+    if (!formId) {
       alert("Formulário não encontrado!")
       return;
     }
