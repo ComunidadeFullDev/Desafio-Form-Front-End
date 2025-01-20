@@ -9,7 +9,7 @@ import logo from "./../../../../public/LogoWhite.svg";
 import { verifyUser } from "@/services/endpoint/authService";
 import { useParams } from 'next/navigation'
 
-export default async function EmailVerification() {
+export default function EmailVerification() {
   const [verificationStatus, setVerificationStatus] = useState<string | null>(null);
   const [countdown, setCountdown] = useState(10);
   const params = useParams<{ token: string }>()
