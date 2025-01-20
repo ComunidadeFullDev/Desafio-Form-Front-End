@@ -1,12 +1,13 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useState, Suspense } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { confirmPasswordReset } from '@/services/endpoint/authService';
+
 
 type FormPreviewProps = {
   resetToken: string; 
@@ -96,13 +97,13 @@ function ResetPasswordForm({ resetToken }: FormPreviewProps) {
   );
 }
 
-export default async function ResetPasswordPage({params}: {params: { resetToken: string };}) {
-  const resetToken = params.resetToken
+export default async function ResetPasswordPage() {
+  const params = useParams<{ resetToken: string }>()
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center p-4 lg:p-8">
       <Suspense fallback={<div>Carregando...</div>}>
-        <ResetPasswordForm resetToken={resetToken}/>
+        <ResetPasswordForm resetToken={params.resetToken}/>
       </Suspense>
     </div>
   );

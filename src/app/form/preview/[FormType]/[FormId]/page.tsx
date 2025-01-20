@@ -1,10 +1,16 @@
 import FormPreview from "@/components/FormPreview";
 
-export default async function PreviewForm({params}: {params: { FormId: string; FormType: string }}) {
+interface PreviewFormProps {
+    params: { formType: string; formId: string };
+  }
+
+export default function PreviewForm({ params }: PreviewFormProps) {
+    const { formType, formId } = params;
+
 
     return (
         <div>
-            <FormPreview formType={params.FormType} formId={params.FormId} />
+            <FormPreview formType={formType} formId={formId} />
         </div>
     )
 }

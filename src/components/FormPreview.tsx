@@ -19,7 +19,6 @@ import Image from "next/image";
 import spinnerloading from "./../../public/isloading.svg";
 import { Skeleton } from "./ui/skeleton"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
-import { useSearchParams } from 'next/navigation';
 
 
 interface Question {
@@ -40,7 +39,7 @@ interface AnswerDTO {
 }
 
 type FormPreviewProps = {
-  formType: string; 
+  formType: string
   formId: string
 };
 
@@ -60,7 +59,6 @@ export default function FormPreview({ formType, formId }: FormPreviewProps) {
   const question = questions[currentQuestion];
   const totalQuestions = questions.length;
   const [messagePassword, setMessagePassword] = useState("");
-  const searchParams = useSearchParams();
 
   useEffect(() => {
 
