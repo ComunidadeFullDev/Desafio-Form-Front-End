@@ -4,7 +4,7 @@ interface PreviewFormProps {
     params: { formType: string; formId: string };
   }
 
-export default function PreviewForm({ params }: PreviewFormProps) {
+export default async function PreviewForm({ params }: PreviewFormProps) {
     const { formType, formId } = params;
 
 
