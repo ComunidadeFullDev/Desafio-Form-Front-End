@@ -7,7 +7,7 @@ import Image from "next/image";
 import logo from "./../../../../public/LogoWhite.svg";
 import { verifyUser } from "@/services/endpoint/authService";
 
-export default function EmailVerification({params}: {params: { token: string };}) {
+export default async function EmailVerification({params}: {params: { token: string };}) {
   const [verificationStatus, setVerificationStatus] = useState<string | null>(null);
   const [countdown, setCountdown] = useState(10);
   const router = useRouter();
